@@ -1,17 +1,37 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <input type="text" v-model="message" />
+    <button @click="postMessage">Send Message</button>
+    {{ time }}
   </div>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld.vue";
+import { doHeavyWork } from "./worker-api";
 
 export default {
   name: "App",
-  components: {
-    HelloWorld,
+
+  data() {
+    return {
+      message: "",
+      time: new Date(),
+    };
+  },
+
+  mounted() {
+    setInterval(() => {
+      this.time = new Date();
+    }, 300);
+  },
+
+  methods: {
+    async postMessage() {
+      // const result = await toUpperCase(this.message);
+      // console.log(result);
+      const result = await doHeavyWork();
+      console.log("result: ", result);
+    },
   },
 };
 </script>
